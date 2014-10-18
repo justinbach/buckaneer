@@ -50,9 +50,9 @@ Route::filter('auth', function()
 
 Route::filter('auth.account', function($req)
 {
-    if (!Auth::check() || $req->getParameter('account') != Auth::getUser()->account->id)
+    if (!Auth::check() || $req->getParameter('account') != Auth::getUser()->account)
     {
-        return Redirect::to('home');
+        return Redirect::to('/');
     }
 });
 

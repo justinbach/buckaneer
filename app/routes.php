@@ -11,6 +11,17 @@
 |
 */
 
+// model bindings
+Route::model('account', 'Account', function()
+{
+    return Redirect::to('/');
+});
+
+Route::model('transactions', 'Transaction', function()
+{
+    return Redirect::to('/');
+});
+
 // landing page
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@showHome']);
 

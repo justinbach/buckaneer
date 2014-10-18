@@ -21,6 +21,9 @@
             <td>{{{ $transaction->name }}}</td>
             <td>
                 {{ link_to_action('TransactionsController@edit', 'Edit', [$account->id, $transaction->id], ['class' => 'btn btn-success btn-inline']) }}
+                {{ Form::open(['route' => ['account.transactions.update', $account->id, $transaction->id], 'method' => 'delete', 'class' => 'form-inline']) }}
+                {{ Form::submit('Delete', array('class' => 'btn btn-danger form-control')) }}
+                {{ Form::close() }}
             </td>
         </tr>
         @endforeach

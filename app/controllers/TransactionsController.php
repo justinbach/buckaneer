@@ -14,44 +14,46 @@ class TransactionsController extends \BaseController {
     public function __construct(Transaction $transaction)
     {
         $this->transaction = $transaction;
-        $this->account = Auth::getUser()->account;
     }
 
     /**
-	 * Display a listing of the resource.
-	 * GET /transactions
-	 *
-	 * @return Response
-	 */
-	public function index()
+     * Display a listing of the resource.
+     * GET /accounts/{id}/transactions
+     *
+     * @param Account $account
+     * @return \Illuminate\View\View
+     */
+    public function index(Account $account)
 	{
         return View::make('transactions.index', [
-            'transactions'  => $this->transaction->byAccount($this->account->id)->get(),
-            'account'       => $this->account
+            'transactions'  => $this->transaction->byAccount($account->id)->get(),
+            'account'       => $account
         ]);
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 * GET /transactions/create
-	 *
-	 * @return Response
-	 */
-	public function create()
+    /**
+     * Show the form for creating a new resource.
+     * GET /account/{id}/transactions/create
+     *
+     * @param Account $account
+     * @return \Illuminate\View\View
+     */
+    public function create(Account $account)
 	{
         return View::make('transactions.create', [
             'transaction' => $this->transaction,
-            'account' => $this->account
+            'account' => $account
         ]);
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 * POST /transactions
-	 *
-	 * @return Response
-	 */
-	public function store()
+    /**
+     * Store a newly created resource in storage.
+     * POST /account/{id}/transactions
+     *
+     * @param Account $account
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function store(Account $account)
 	{
         if (!$this->transaction->save())
         {
@@ -63,58 +65,59 @@ class TransactionsController extends \BaseController {
         {
             Session::flash('message', 'Your transaction has been recorded.');
             Session::flash('alert-class', 'alert-success');
-            return $this->getIndexRedirect();
+            return $this->getIndexRedirect($account);
         }
 	}
 
-	/**
-	 * Display the specified resource.
-	 * GET /transactions/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
+    /**
+     * Display the specified resource.
+     * GET /account/{id}/transactions/{id}
+     * @param Account $account
+     * @param Transaction $transaction
+     */
+    public function show(Account $account, Transaction $transaction)
 	{
 		//
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 * GET /transactions/{id}/edit
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($accountId, $transactionId)
+    /**
+     * Show the form for editing the specified resource.
+     * GET /account/{id}/transactions/{id}
+     *
+     * @param Account $account
+     * @param Transaction $transaction
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function edit(Account $account, Transaction $transaction)
 	{
-        $this->transaction = Transaction::find($transactionId);
+        $this->transaction = $transaction;
         if ($this->transaction === NULL)
         {
             return Redirect::action('TransactionsController@index', [
-                'account'       => $this->account->id,
+                'account'       => $account,
                 'transaction'   => $this->transaction
             ]);
         }
         else
         {
             return View::make('transactions.edit', [
-                'transaction'   => $this->transaction,
-                'account'       => $this->account
+                'account'       => $account,
+                'transaction'   => $this->transaction
             ]);
         }
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 * PUT /transactions/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($accountId, $transactionId)
+    /**
+     * Update the specified resource in storage.
+     * PUT /account/{id}/transactions/{id}
+     *
+     * @param Account $account
+     * @param Transaction $transaction
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function update(Account $account, Transaction $transaction)
 	{
-        $this->transaction = Transaction::find($transactionId);
+        $this->transaction = $transaction;
         if (!$this->transaction->updateUniques())
         {
             return Redirect::back()
@@ -125,20 +128,21 @@ class TransactionsController extends \BaseController {
         {
             Session::flash('message', 'Your transaction has been updated.');
             Session::flash('alert-class', 'alert-success');
-            return $this->getIndexRedirect();
+            return $this->getIndexRedirect($account);
         }
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 * DELETE /transactions/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
+    /**
+     * Remove the specified resource from storage.
+     * DELETE /account/{id}/transactions/{id}
+     *
+     * @param Account $account
+     * @param Transaction $transaction
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Account $account, Transaction $transaction)
 	{
-        $this->transaction = Transaction::find($id);
+        $this->transaction = $transaction;
         if (!$this->transaction->delete())
         {
             Session::flash('message', 'Error deleting transaction.');
@@ -149,13 +153,13 @@ class TransactionsController extends \BaseController {
         {
             Session::flash('message', 'Transaction deleted successfully.');
             Session::flash('alert-class', 'alert-success');
-            return $this->getIndexRedirect();
+            return $this->getIndexRedirect($account);
         }
 	}
 
-    protected function getIndexRedirect()
+    protected function getIndexRedirect(Account $account)
     {
-        return Redirect::action('TransactionsController@index', ['account' => $this->account->id]);
+        return Redirect::action('TransactionsController@index', ['account' => $account->id]);
     }
 
 }
