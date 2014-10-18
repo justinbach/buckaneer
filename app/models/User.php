@@ -9,4 +9,9 @@ class User extends Eloquent implements ConfideUserInterface {
 	use ConfideUser;
     use HasRole;
 
+    public function account()
+    {
+        return $this->belongsTo('Account');
+    }
+
 }

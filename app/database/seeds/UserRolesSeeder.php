@@ -9,13 +9,13 @@ class UserRolesSeeder extends Seeder {
         $adminUser = User::where('username','=','admin')->first();
         $adminUser->attachRole($adminRole);
 
-        $user1Role = Role::where('name','=','PrimaryUser')->first();
-        $user1User = User::where('username','=','justinbach')->first();
-        $user1User->attachRole($user1Role);
+        $primaryUserRole = Role::where('name','=','PrimaryUser')->first();
+        $primaryUserUser = User::where('username','=','justinbach')->first();
+        $primaryUserUser->attachRole($primaryUserRole);
 
-        $user2Role = Role::where('name','=','SecondaryUser')->first();
-        $user2User = User::where('username','=','hadjey')->first();
-        $user2User->attachRole($user2Role);
+        $secondaryUserRole = Role::where('name','=','SecondaryUser')->first();
+        $secondaryUserUser = User::where('username','=','hadjey')->first();
+        $secondaryUserUser->attachRole($secondaryUserRole);
     }
 
 }

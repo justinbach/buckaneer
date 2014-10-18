@@ -9,7 +9,8 @@
         "laravelbook/ardent": "2.*",
         "zizaco/confide": "~4.0@dev",
 		"barryvdh/laravel-ide-helper": "1.11",
-		"zizaco/entrust": "1.2.*@dev"
+		"zizaco/entrust": "1.2.*@dev",
+		"way/generators": "~2.6"
 	},
 	"autoload": {
 		"classmap": [

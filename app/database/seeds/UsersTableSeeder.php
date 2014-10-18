@@ -17,30 +17,30 @@ class UsersTableSeeder extends Seeder {
             Log::info('Created user "'.$admin->username.'" <'.$admin->email.'>');
         }
 
-        $user1 = new User;
-        $user1->username = 'justinbach';
-        $user1->email = 'justinbach@gmail.com';
-        $user1->password = 'password';
-        $user1->password_confirmation = 'password';
-        $user1->confirmation_code = md5(uniqid(mt_rand(), true));
+        $primaryUser = new User;
+        $primaryUser->username = 'justinbach';
+        $primaryUser->email = 'justinbach@gmail.com';
+        $primaryUser->password = 'password';
+        $primaryUser->password_confirmation = 'password';
+        $primaryUser->confirmation_code = md5(uniqid(mt_rand(), true));
 
-        if(! $user1->save()) {
-            Log::info('Unable to create user '.$user1->username, (array)$user1->errors());
+        if(! $primaryUser->save()) {
+            Log::info('Unable to create user '.$primaryUser->username, (array)$primaryUser->errors());
         } else {
-            Log::info('Created user "'.$user1->username.'" <'.$user1->email.'>');
+            Log::info('Created user "'.$primaryUser->username.'" <'.$primaryUser->email.'>');
         }
 
-        $user2 = new User;
-        $user2->username = 'hadjey';
-        $user2->email = 'hadjey@gmail.com';
-        $user2->password = 'password';
-        $user2->password_confirmation = 'password';
-        $user2->confirmation_code = md5(uniqid(mt_rand(), true));
+        $secondaryUser = new User;
+        $secondaryUser->username = 'hadjey';
+        $secondaryUser->email = 'hadjey@gmail.com';
+        $secondaryUser->password = 'password';
+        $secondaryUser->password_confirmation = 'password';
+        $secondaryUser->confirmation_code = md5(uniqid(mt_rand(), true));
 
-        if(! $user2->save()) {
-            Log::info('Unable to create user '.$user2->username, (array)$user2->errors());
+        if(! $secondaryUser->save()) {
+            Log::info('Unable to create user '.$secondaryUser->username, (array)$secondaryUser->errors());
         } else {
-            Log::info('Created user "'.$user2->username.'" <'.$user2->email.'>');
+            Log::info('Created user "'.$secondaryUser->username.'" <'.$secondaryUser->email.'>');
         }
     }
 }
