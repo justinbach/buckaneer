@@ -11,14 +11,8 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
-//
-
-
-//
+// landing page
+Route::get('/', ['as' => 'home', 'uses' => 'HomeController@showHome']);
 
 // Confide RESTful route
 Route::get('users/confirm/{code}', 'UsersController@getConfirm');
