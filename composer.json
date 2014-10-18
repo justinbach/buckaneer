@@ -8,7 +8,8 @@
         "phpunit/phpunit": "4.3.*",
         "laravelbook/ardent": "2.*",
         "zizaco/confide": "~4.0@dev",
-		"barryvdh/laravel-ide-helper": "1.11"
+		"barryvdh/laravel-ide-helper": "1.11",
+		"zizaco/entrust": "1.2.*@dev"
 	},
 	"autoload": {
 		"classmap": [
