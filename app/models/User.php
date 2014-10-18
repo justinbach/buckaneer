@@ -14,4 +14,9 @@ class User extends Eloquent implements ConfideUserInterface {
         return $this->belongsTo('Account');
     }
 
+    public function transactions()
+    {
+        return $this->hasMany('Transaction');
+    }
+
 }

@@ -1,0 +1,1 @@
+/home/vagrant/Code/buckaneer/app/views/transactions/index.blade.php

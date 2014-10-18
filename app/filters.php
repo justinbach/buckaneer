@@ -43,9 +43,17 @@ Route::filter('auth', function()
 		}
 		else
 		{
-			return Redirect::guest('login');
+			return Redirect::guest('/users/login');
 		}
 	}
+});
+
+Route::filter('auth.account', function($req)
+{
+    if (!Auth::check() || $req->getParameter('account') != Auth::getUser()->account->id)
+    {
+        return Redirect::to('home');
+    }
 });
 
 

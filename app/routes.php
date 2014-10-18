@@ -14,6 +14,12 @@
 // landing page
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@showHome']);
 
+// transactions - nested through accounts
+Route::group(['before' => 'auth|auth.account'], function()
+{
+    Route::resource('account.transactions', 'TransactionsController');
+});
+
 // Confide RESTful route
 Route::get('users/confirm/{code}', 'UsersController@getConfirm');
 Route::get('users/reset_password/{token}', 'UsersController@getReset');
