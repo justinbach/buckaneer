@@ -2,7 +2,22 @@
 
 class TransactionsController extends \BaseController {
 
-	/**
+    protected $transaction;
+    protected $account;
+
+    /**
+     * Constructor with automatic dependency injection.
+     * @TODO inject repository instead of model
+     *
+     * @param Transaction $transaction
+     */
+    public function __construct(Transaction $transaction)
+    {
+        $this->transaction = $transaction;
+        $this->account = Auth::getUser()->account;
+    }
+
+    /**
 	 * Display a listing of the resource.
 	 * GET /transactions
 	 *
@@ -10,7 +25,10 @@ class TransactionsController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+        return View::make('transactions.index', [
+            'transactions'  => $this->transaction->byAccount($this->account->id)->get(),
+            'account'       => $this->account
+        ]);
 	}
 
 	/**
@@ -21,7 +39,10 @@ class TransactionsController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+        return View::make('transactions.create', [
+            'transaction' => $this->transaction,
+            'account' => $this->account
+        ]);
 	}
 
 	/**
@@ -32,7 +53,18 @@ class TransactionsController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+        if (!$this->transaction->save())
+        {
+            return Redirect::back()
+                ->withErrors($this->transaction->errors())
+                ->withinput();
+        }
+        else
+        {
+            Session::flash('message', 'Your transaction has been recorded.');
+            Session::flash('alert-class', 'alert-success');
+            return $this->getIndexRedirect();
+        }
 	}
 
 	/**
@@ -54,9 +86,23 @@ class TransactionsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($accountId, $transactionId)
 	{
-		//
+        $this->transaction = Transaction::find($transactionId);
+        if ($this->transaction === NULL)
+        {
+            return Redirect::action('TransactionsController@index', [
+                'account'       => $this->account->id,
+                'transaction'   => $this->transaction
+            ]);
+        }
+        else
+        {
+            return View::make('transactions.edit', [
+                'transaction'   => $this->transaction,
+                'account'       => $this->account
+            ]);
+        }
 	}
 
 	/**
@@ -66,9 +112,21 @@ class TransactionsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($accountId, $transactionId)
 	{
-		//
+        $this->transaction = Transaction::find($transactionId);
+        if (!$this->transaction->updateUniques())
+        {
+            return Redirect::back()
+                ->withErrors($this->transaction->errors())
+                ->withinput();
+        }
+        else
+        {
+            Session::flash('message', 'Your transaction has been updated.');
+            Session::flash('alert-class', 'alert-success');
+            return $this->getIndexRedirect();
+        }
 	}
 
 	/**
@@ -80,7 +138,24 @@ class TransactionsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+        $this->transaction = Transaction::find($id);
+        if (!$this->transaction->delete())
+        {
+            Session::flash('message', 'Error deleting transaction.');
+            Session::flash('alert-class', 'alert-danger');
+            return Redirect::back();
+        }
+        else
+        {
+            Session::flash('message', 'Transaction deleted successfully.');
+            Session::flash('alert-class', 'alert-success');
+            return $this->getIndexRedirect();
+        }
 	}
+
+    protected function getIndexRedirect()
+    {
+        return Redirect::action('TransactionsController@index', ['account' => $this->account->id]);
+    }
 
 }

@@ -40,6 +40,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @if (Auth::check())
+                <li><a href="{{ URL::action('TransactionsController@index', Auth::getUser()->account->id) }}">Transactions</a></li>
                 <li><a href="{{ URL::to('users/logout') }}">Logout</a></li>
                 @else
                 <li><a href="{{ URL::to('users/create') }}">Sign Up</a></li>

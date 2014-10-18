@@ -1,1 +1,5 @@
-/home/vagrant/Code/buckaneer/app/views/transactions/create.blade.php
+@extends('layout')
+
+@section('content')
+@include('transactions._form', ['new' => true])
+@stop
