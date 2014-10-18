@@ -121,7 +121,8 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
-        'Zizaco\Confide\ServiceProvider'
+        'Zizaco\Confide\ServiceProvider',
+        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider'
 
 	),
 

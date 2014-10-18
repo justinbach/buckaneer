@@ -7,7 +7,8 @@
 		"laravel/framework": "4.2.*",
         "phpunit/phpunit": "4.3.*",
         "laravelbook/ardent": "2.*",
-        "zizaco/confide": "~4.0@dev"
+        "zizaco/confide": "~4.0@dev",
+		"barryvdh/laravel-ide-helper": "1.11"
 	},
 	"autoload": {
 		"classmap": [
@@ -26,6 +27,7 @@
 		],
 		"post-update-cmd": [
 			"php artisan clear-compiled",
+            "php artisan ide-helper:generate",
 			"php artisan optimize"
 		],
 		"post-create-project-cmd": [
