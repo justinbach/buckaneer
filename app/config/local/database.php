@@ -25,7 +25,7 @@ return array(
 			'host'      => 'localhost',
 			'database'  => 'buckaneer',
 			'username'  => 'buckaneer',
-			'password'  => 'password',
+			'password'  => '',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

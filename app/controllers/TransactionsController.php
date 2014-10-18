@@ -57,7 +57,10 @@ class TransactionsController extends \BaseController {
 	{
         if (!$this->transaction->save())
         {
-            return Redirect::back()
+            return Redirect::action('TransactionsController@create',
+                [
+                    'account'       => $account->id
+                ])
                 ->withErrors($this->transaction->errors())
                 ->withinput();
         }
@@ -94,8 +97,8 @@ class TransactionsController extends \BaseController {
         if ($this->transaction === NULL)
         {
             return Redirect::action('TransactionsController@index', [
-                'account'       => $account,
-                'transaction'   => $this->transaction
+                'account'       => $account->id,
+                'transaction'   => $this->transaction->id
             ]);
         }
         else
@@ -120,7 +123,11 @@ class TransactionsController extends \BaseController {
         $this->transaction = $transaction;
         if (!$this->transaction->updateUniques())
         {
-            return Redirect::back()
+            return Redirect::action('TransactionsController@edit',
+            [
+                'account'       => $account->id,
+                'transaction'   => $transaction->id
+            ])
                 ->withErrors($this->transaction->errors())
                 ->withinput();
         }
