@@ -27,10 +27,24 @@ class UsersController extends Controller
      */
     public function postIndex()
     {
+
         $repo = App::make('UserRepository');
         $user = $repo->signup(Input::all());
 
         if ($user->id) {
+
+            // new users get a new account
+            $account = new Account;
+            $account->name = $user->username;
+            $account->save();
+            $user->account()->associate($account);
+
+            // and the default role of primary
+            // TODO enable primary users to create other users
+            $role = Role::where('name', 'PrimaryUser')->first();
+            $user->attachRole($role);
+            $user->save();
+
             if (Config::get('confide::signup_email')) {
                 Mail::queueOn(
                     Config::get('confide::email_queue'),

@@ -16,6 +16,7 @@ ClassLoader::addDirectories(array(
 	app_path().'/commands',
 	app_path().'/controllers',
 	app_path().'/models',
+    app_path().'/validators',
 	app_path().'/database/seeds',
 
 ));
@@ -77,5 +78,9 @@ App::down(function()
 | definitions instead of putting them all in the main routes file.
 |
 */
+
+// bind custom validator
+App::bind('confide.user_validator', 'BuckaneerUserValidator');
+
 
 require app_path().'/filters.php';
